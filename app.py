@@ -20,12 +20,19 @@ selected_category = st.selectbox('Select a Category', brands_by_category['Catego
 # Filter data for selected category
 selected_brands = brands_by_category[brands_by_category['Category'] == selected_category]['Brand'].iloc[0]
 
+# Create a DataFrame for the selected category
+df_selected_category = pd.DataFrame({
+    'Category': [selected_category] * len(selected_brands),
+    'Brand': selected_brands
+})
+
 # Plot bubble chart for selected seller
-fig = px.scatter(x=[selected_category]*len(selected_brands),
+fig = px.scatter(df_selected_category,
+                 x='Category',
                  y=[len(selected_brands)],
                  size=[len(selected_brands)],
-                 color=[selected_category],
-                 hover_name=selected_brands,
+                 color='Category',
+                 hover_name='Brand',
                  title=f'Brands in Category: {selected_category}',
                  labels={'y': 'Number of Brands', 'x': 'Category'},
                  size_max=30,
